@@ -10,22 +10,23 @@
 import { createAPI } from '@/utils/request'
 
 // 标签列表
-export const list = data => createAPI('/tags', 'get', data)
+export const tagsList = data => createAPI('/tags', 'get', data)
 
 // 标签简单列表
-export const simple = data => createAPI('/tags/simple', 'get', data)
+export const tagsSimple = data => createAPI('/tags/simple', 'get', data)
 
 // 标签详情
-export const detail = data => createAPI(`/tags/${data.id}`, 'get', data)
+export const tagsDetail = data => createAPI(`/tags/${data.id}`, 'get', data)
 
 // 标签添加
-export const add = data => createAPI('/tags', 'post', data)
+export const tagsAdd = data => createAPI('/tags', 'post', data)
 
 // 标签修改
-export const update = data => createAPI(`/tags/${data.id}`, 'put', data)
+export const tagsUpdate = data => createAPI(`/tags/${data.id}`, 'put', data)
 
 // 标签删除
-export const remove = data => createAPI(`/tags/${data.id}`, 'delete', data)
+export const tagsRemove = data => createAPI(`/tags/${data.id}`, 'delete', data)
 
 // 标签状态
-export const changeState = data => createAPI(`/tags/${data.id}/${data.state}`, 'post', data)
+export const tagsChangeState = data =>
+  createAPI(`/tags/${data.id}/${data.state}`, 'post', data)
