@@ -69,10 +69,44 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="录入人"></el-form-item>
-        <el-form-item label="题目备注"></el-form-item>
-        <el-form-item label="企业简称"></el-form-item>
-        <el-form-item label="城市"></el-form-item>
+        <el-form-item label="录入人">
+          <el-select v-model="form.creatorID" placeholder="请选择">
+            <el-option
+              v-for="item in userList"
+              :key="item.id"
+              :label="item.username"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="题目备注">
+          <el-input v-model="form.remarks"></el-input>
+        </el-form-item>
+        <el-form-item label="企业简称">
+          <el-input v-model="form.shortName"></el-input>
+        </el-form-item>
+        <el-form-item label="城市">
+          <el-select
+            v-model="form.province"
+            placeholder="请选择"
+            @change="provinceChange"
+          >
+            <el-option
+              v-for="(item, index) in provincesList"
+              :key="index"
+              :label="item"
+              :value="item"
+            ></el-option>
+          </el-select>
+          <el-select v-model="form.city" placeholder="请选择">
+            <el-option
+              v-for="(item, index) in cityList"
+              :key="index"
+              :label="item"
+              :value="item"
+            ></el-option>
+          </el-select>
+        </el-form-item>
       </el-form>
     </el-card>
   </div>
@@ -83,22 +117,31 @@ import { subjectsList } from '../../api/hmmm/subjects'
 import { directorysList } from '../../api/hmmm/directorys.js'
 import { tagsList } from '../../api/hmmm/tags'
 import { questionType, difficulty, direction } from '../../api/hmmm/constants'
+import { list } from '../../api/base/users'
+import { provinces, citys } from '../../api/hmmm/citys'
 export default {
   data () {
     return {
       // 学科列表
-      subjectsList: {},
+      subjectsList: [],
       // 问题列表
-      questionList: {},
+      questionList: [],
       // 学科二级列表
-      directorysList: {},
+      directorysList: [],
       // 标签列表
-      tagsList: {},
+      tagsList: [],
+      // 用户列表
+      userList: [],
       // form表单
       subjectID: '',
       questionTypeList: questionType,
       difficultyList: difficulty,
       directionList: direction,
+      // 地区列表
+      provincesList: [],
+      // 城市列表
+      cityList: [],
+      city: '',
       form: {
         subjectID: '', //    学科
         questionType: '', // 试题类型
@@ -117,6 +160,9 @@ export default {
   },
   created () {
     this.getSubjectsList()
+    this.getUserList()
+    this.provincesList = provinces()
+    window.console.log('this.provincesList', this.provincesList)
   },
   methods: {
     // 选择学科后
@@ -141,6 +187,19 @@ export default {
       let res = await subjectsList()
       this.subjectsList = res.data.items
       window.console.log('subjectsList', this.subjectsList)
+    },
+    // 获取用户列表
+    async getUserList () {
+      let res = await list()
+      this.userList = res.data.list
+      window.console.log('this.userList', this.userList)
+    },
+    // 选择城市后
+    provinceChange (city) {
+      this.city = city
+      this.$set(this.form, 'city', '')
+      // 获取所有地区
+      this.cityList = citys(this.city)
     }
   }
 }
