@@ -1,7 +1,7 @@
 <template>
   <div class="base-question">
-    <el-card>
-      <el-form :model="form" inline label-width="80px">
+    <el-form :model="form" inline label-width="80px">
+      <el-row type="flex" class="row-bg" justify="space-between">
         <el-form-item label="学科">
           <el-select
             v-model="form.subjectID"
@@ -39,6 +39,8 @@
         <el-form-item label="关键字">
           <el-input v-model="form.keyword"></el-input>
         </el-form-item>
+      </el-row>
+      <el-row type="flex" class="row-bg" justify="space-between">
         <el-form-item label="试题类型">
           <el-select v-model="form.questionType" placeholder="请选择">
             <el-option
@@ -79,39 +81,51 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="题目备注">
-          <el-input v-model="form.remarks"></el-input>
-        </el-form-item>
-        <el-form-item label="企业简称">
-          <el-input v-model="form.shortName"></el-input>
-        </el-form-item>
-        <el-form-item label="城市">
-          <el-select
-            v-model="form.province"
-            placeholder="请选择"
-            @change="provinceChange"
-          >
-            <el-option
-              v-for="(item, index) in provincesList"
-              :key="index"
-              :label="item"
-              :value="item"
-            ></el-option>
-          </el-select>
-          <el-select v-model="form.city" placeholder="请选择">
-            <el-option
-              v-for="(item, index) in cityList"
-              :key="index"
-              :label="item"
-              :value="item"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-    </el-card>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item label="题目备注">
+            <el-input v-model="form.remarks"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="企业简称">
+            <el-input v-model="form.shortName"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="城市">
+            <el-select
+              v-model="form.province"
+              placeholder="请选择"
+              @change="provinceChange"
+            >
+              <el-option
+                v-for="(item, index) in provincesList"
+                :key="index"
+                :label="item"
+                :value="item"
+              ></el-option>
+            </el-select>
+            <el-select v-model="form.city" placeholder="请选择">
+              <el-option
+                v-for="(item, index) in cityList"
+                :key="index"
+                :label="item"
+                :value="item"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="">
+            <el-input v-model="form.remarks"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
   </div>
 </template>
-
 <script>
 import { subjectsList } from '../../api/hmmm/subjects'
 import { directorysList } from '../../api/hmmm/directorys.js'
